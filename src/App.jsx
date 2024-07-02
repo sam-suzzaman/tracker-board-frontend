@@ -1,5 +1,15 @@
+import Footer from "./components/Footer/Footer";
+import Navbar from "./components/Navbar/Navbar";
+import Landing from "./page/Landing";
+
 function App() {
-    return <h2>hello world</h2>;
+    return (
+        <div className="flex flex-col justify-between min-h-screen">
+            <Navbar />
+            <Landing />
+            <Footer />
+        </div>
+    );
 }
 
 export default App;

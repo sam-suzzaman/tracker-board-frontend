@@ -4,7 +4,7 @@ import Landing from "./page/Landing";
 
 function App() {
     return (
-        <div className="flex flex-col justify-between min-h-screen">
+        <div className="flex flex-col justify-between bg-[#fef5f9]">
             <Navbar />
             <Landing />
             <Footer />

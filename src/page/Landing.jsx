@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import Task from "../components/Task/Task";
 import AddTaskModal from "../components/AddTaskModal/AddTaskModal";
+import { useSelector } from "react-redux";
 
 const Landing = () => {
+    // Task state
+    const { tasks } = useSelector((state) => state);
+
     // Add Task Modal
     const [isOpenAddTaskModal, setIsOpenAddTaskModal] = useState(false);
 

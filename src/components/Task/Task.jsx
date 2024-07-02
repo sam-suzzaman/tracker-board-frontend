@@ -1,6 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
+
+
+import EditTaskModal from "../EditTaskModal/EditTaskModal";
 
 const Task = () => {
+    // Edit Modal
+    const [open, setOpen] = useState(false);
+    const onOpenModal = () => setOpen(true);
+    const onCloseModal = () => setOpen(false);
+
     return (
         <div className="bg-white px-4 py-6 rounded-[4px]">
             <span className="text-[11px] font-semibold capitalize bg-orange-100 text-orange-800 px-3 py-[2px] rounded-sm tracking-wide">
@@ -21,7 +29,10 @@ const Task = () => {
                     </button>
                 </div>
                 <div className="flex justify-end items-center gap-[6px]">
-                    <button className="text-[12px] font-bold capitalize bg-orange-200 text-orange-800 px-2 py-1 rounded-sm tracking-wide cursor-pointer hover:bg-orange-500  hover:text-white transition-all duration-300">
+                    <button
+                        onClick={onOpenModal}
+                        className="text-[12px] font-bold capitalize bg-orange-200 text-orange-800 px-2 py-1 rounded-sm tracking-wide cursor-pointer hover:bg-orange-500  hover:text-white transition-all duration-300"
+                    >
                         <i class="fa-regular fa-pen-to-square"></i>
                     </button>
                     <button className="text-[12px] font-bold capitalize bg-red-100 text-red-700 px-2 py-1 rounded-sm tracking-wide cursor-pointer hover:bg-red-400  hover:text-white transition-all duration-300">
@@ -29,6 +40,7 @@ const Task = () => {
                     </button>
                 </div>
             </div>
+            <EditTaskModal open={open} onClose={onCloseModal} />
         </div>
     );
 };

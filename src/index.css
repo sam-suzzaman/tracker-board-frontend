@@ -1,3 +1,27 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Add Task Modal Style */
+.addTaskModalCustomOverlay {
+    background: rgba(0, 0, 0, 0.6);
+}
+.addTaskModalCustomModal {
+    background: #fff;
+    max-width: 600px;
+    width: 90%;
+    border-radius: 6px;
+    padding: 40px 30px;
+}
+
+/* Edit Task Modal Style */
+.editTaskModalCustomOverlay {
+    background: rgba(0, 0, 0, 0.6);
+}
+.editTaskModalCustomModal {
+    background: #fff;
+    max-width: 600px;
+    width: 90%;
+    border-radius: 6px;
+    padding: 40px 30px;
+}

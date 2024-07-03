@@ -18,7 +18,7 @@ const statusTypes = [
     {
         id: 3,
         title: "Complete",
-        value: "Complete",
+        value: "complete",
     },
 ];
 const Landing = () => {
@@ -44,15 +44,17 @@ const Landing = () => {
         if (selectedStatus === "all") {
             setSearchString("");
         } else if (selectedStatus === "in-progress") {
-            setSearchString = "in-progress";
+            setSearchString("in-progress");
         } else if (selectedStatus === "complete") {
-            setSearchString = "complete";
+            setSearchString("complete");
         }
     }, [selectedStatus]);
 
     // Add Task Modal open handler
     const addTaskModalOpenHandler = () => setIsOpenAddTaskModal(true);
     const addTaskModalCloseHandler = () => setIsOpenAddTaskModal(false);
+    console.log(error);
+    console.log(tasksData);
 
     return (
         <section className="w-full h-full flex justify-center">

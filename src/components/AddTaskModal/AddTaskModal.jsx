@@ -2,15 +2,32 @@ import React from "react";
 import Modal from "react-responsive-modal";
 
 import { useForm } from "react-hook-form";
+import { useAddTaskMutation } from "../../redux/features/api/baseAPI";
+import Swal from "sweetalert2";
 
 const AddTaskModal = ({ open, onClose }) => {
+    // add post mutation
+    const [addTask, { data, isLoading, isError, error }] = useAddTaskMutation();
+
+    // form hook
     const {
         register,
         handleSubmit,
         watch,
         formState: { errors },
     } = useForm();
-    const onSubmit = (data) => console.log(data);
+
+    // form submission handler
+    const onSubmit = async (data) => {
+        await addTask(data);
+        onClose();
+        Swal.fire({
+            title: "Done",
+            text: "Task Added",
+            icon: "success",
+            confirmButtonColor: "#33a440d5",
+        });
+    };
 
     return (
         <Modal
@@ -102,9 +119,10 @@ const AddTaskModal = ({ open, onClose }) => {
                     <div className="mt-6 flex justify-center items-center">
                         <button
                             type="submit"
-                            className="capitalize font-semibold text-sm bg-tracker-600 text-white px-6 py-2 rounded-sm transition-all duration-300 hover:bg-tracker-800"
+                            className="capitalize font-semibold text-sm bg-tracker-600 text-white px-6 py-2 rounded-sm transition-all duration-300 hover:bg-tracker-800 disabled:cursor-not-allowed"
+                            disabled={isLoading}
                         >
-                            add task
+                            {isLoading ? "Loading..." : " add task"}
                         </button>
                     </div>
                 </form>

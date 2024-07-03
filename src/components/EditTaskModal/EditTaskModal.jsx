@@ -2,14 +2,17 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import Modal from "react-responsive-modal";
 
-const EditTaskModal = ({ open, onClose }) => {
+const EditTaskModal = ({ open, onClose, data }) => {
     const {
         register,
         handleSubmit,
         watch,
         formState: { errors },
     } = useForm();
+
+    // form submission handler
     const onSubmit = (data) => console.log(data);
+
     return (
         <Modal
             open={open}

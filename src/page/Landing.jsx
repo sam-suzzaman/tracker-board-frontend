@@ -2,8 +2,17 @@ import React, { useState } from "react";
 import Task from "../components/Task/Task";
 import AddTaskModal from "../components/AddTaskModal/AddTaskModal";
 import { useSelector } from "react-redux";
+import { useGetAllTasksQuery } from "../redux/features/api/baseAPI";
 
 const Landing = () => {
+    // Fetching task data
+    const {
+        data: tasksData,
+        isLoading: tasksLoading,
+        isError,
+        error,
+    } = useGetAllTasksQuery();
+
     // Task state
     const { tasks } = useSelector((state) => state);
 
@@ -38,14 +47,19 @@ const Landing = () => {
                 </div>
 
                 {/* Card Row */}
-                <div className="mt-4 grid grid-cols-1 min-[650px]:grid-cols-2 min-[1000px]:grid-cols-3 justify-between items-center gap-4 py-2 rounded-md">
-                    <Task />
-                    <Task />
-                    <Task />
-                    <Task />
-                    <Task />
-                    <Task />
-                </div>
+                {tasksLoading ? (
+                    <div className="mt-4  py-2 rounded-md">
+                        <h6 className="text-center text-sm md:text-base lg:text-lg capitalize text-tracker-300 font-semibold tracking-wider">
+                            loading...
+                        </h6>
+                    </div>
+                ) : (
+                    <div className="mt-4 grid grid-cols-1 min-[650px]:grid-cols-2 min-[1000px]:grid-cols-3 justify-between items-center gap-4 py-2 rounded-md">
+                        {tasksData?.result?.map((t) => (
+                            <Task data={t} key={t._id} />
+                        ))}
+                    </div>
+                )}
             </div>
         </section>
     );

@@ -2,7 +2,10 @@ import React, { useState } from "react";
 
 import EditTaskModal from "../EditTaskModal/EditTaskModal";
 import Swal from "sweetalert2";
-import { useDeleteTaskMutation } from "../../redux/features/api/baseAPI";
+import {
+    useDeleteTaskMutation,
+    useUpdateTaskMutation,
+} from "../../redux/features/api/baseAPI";
 
 const Task = ({ data }) => {
     // Edit Modal
@@ -20,6 +23,9 @@ const Task = ({ data }) => {
             error: deleteErrorMsg,
         },
     ] = useDeleteTaskMutation();
+    // Update task mutation
+    const [updateTask, { res, isLoading: updateLoading, error: updateError }] =
+        useUpdateTaskMutation();
 
     // delete task handler
     const taskDeleteHandler = async (id) => {
@@ -47,6 +53,18 @@ const Task = ({ data }) => {
         });
     };
 
+    // toggle task status handler
+    const toggleTaskStatus = async (id) => {
+        let status = data?.status === "complete" ? "in-progress" : "complete";
+        await updateTask({ info: { status }, id });
+        Swal.fire({
+            title: "Done",
+            text: "Status Updated",
+            icon: "success",
+            confirmButtonColor: "#33a440d5",
+        });
+    };
+
     return (
         <div className="bg-white px-4 py-6 rounded-[4px]">
             <span className="text-[11px] font-semibold capitalize bg-orange-100 text-orange-800 px-3 py-[2px] rounded-sm tracking-wide">
@@ -60,8 +78,14 @@ const Task = ({ data }) => {
             </p>
             <div className="flex justify-between items-center mt-6">
                 <div className="">
-                    <button className="text-[11px] font-semibold capitalize bg-green-100 text-green-800 px-3 py-[2px] rounded-sm tracking-wide cursor-pointer hover:bg-green-400  hover:text-white transition-all duration-300">
-                        <i class="fa-solid fa-check mr-1"></i>make complete
+                    <button
+                        onClick={() => toggleTaskStatus(data?._id)}
+                        className="text-[11px] font-semibold capitalize bg-green-100 text-green-800 px-3 py-[2px] rounded-sm tracking-wide cursor-pointer hover:bg-green-400  hover:text-white transition-all duration-300"
+                    >
+                        <i class="fa-solid fa-check mr-1"></i>make{" "}
+                        {data?.status === "complete"
+                            ? "in-progress"
+                            : "complete"}
                     </button>
                 </div>
                 <div className="flex justify-end items-center gap-[6px]">

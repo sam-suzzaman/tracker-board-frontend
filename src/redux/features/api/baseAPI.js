@@ -25,11 +25,12 @@ const baseApi = createApi({
             invalidatesTags: ["Tasks"],
         }),
         updateTask: builder.mutation({
-            query: ({ data, id }) => ({
+            query: ({ info, id }) => ({
                 url: `/tasks/${id}`,
                 method: "PATCH",
-                body: data,
+                body: info,
             }),
+            invalidatesTags: ["Tasks"],
         }),
         deleteTask: builder.mutation({
             query: (id) => ({

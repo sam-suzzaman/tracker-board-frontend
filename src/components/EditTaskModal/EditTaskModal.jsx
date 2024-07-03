@@ -1,8 +1,11 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import Modal from "react-responsive-modal";
+import { useUpdateTaskMutation } from "../../redux/features/api/baseAPI";
+import Swal from "sweetalert2";
 
 const EditTaskModal = ({ open, onClose, data }) => {
+    // form hook
     const {
         register,
         handleSubmit,
@@ -10,8 +13,21 @@ const EditTaskModal = ({ open, onClose, data }) => {
         formState: { errors },
     } = useForm();
 
+    const [updateTask, { res, isLoading, isError, error }] =
+        useUpdateTaskMutation();
+
     // form submission handler
-    const onSubmit = (data) => console.log(data);
+    const onSubmit = async (info) => {
+        const res = await updateTask({ info, id: data?._id });
+        console.log({ info, id: data?._id });
+        onClose();
+        Swal.fire({
+            title: "Done",
+            text: "Task Updated",
+            icon: "success",
+            confirmButtonColor: "#33a440d5",
+        });
+    };
 
     return (
         <Modal
@@ -45,6 +61,7 @@ const EditTaskModal = ({ open, onClose, data }) => {
                             type="text"
                             id="title"
                             className="outline-none border-tracker-200 border-[1px] w-full rounded-[4px] px-[10px] py-[4px] text-sm font-semibold text-black focus:border-tracker-400 transition-all duration-300"
+                            defaultValue={data?.title}
                             {...register("title", {
                                 required: {
                                     value: true,
@@ -78,6 +95,7 @@ const EditTaskModal = ({ open, onClose, data }) => {
                             type="text"
                             id="des"
                             className="outline-none border-tracker-200 border-[1px] w-full rounded-[4px] px-[10px] py-[4px] text-sm font-semibold text-black focus:border-tracker-400 transition-all duration-300"
+                            defaultValue={data?.description}
                             {...register("description", {
                                 required: {
                                     value: true,
@@ -111,7 +129,7 @@ const EditTaskModal = ({ open, onClose, data }) => {
                             name="status"
                             id="status"
                             className="outline-none border-tracker-200 border-[1px] w-full rounded-[4px] px-[10px] py-[4px] text-sm font-semibold text-black focus:border-tracker-400 transition-all duration-300"
-                            defaultValue="none"
+                            defaultChecked={data?.status}
                             {...register("status", {
                                 required: {
                                     value: true,
@@ -144,9 +162,10 @@ const EditTaskModal = ({ open, onClose, data }) => {
                     <div className="mt-6 flex justify-center items-center">
                         <button
                             type="submit"
-                            className="capitalize font-semibold text-sm bg-tracker-600 text-white px-6 py-2 rounded-sm transition-all duration-300 hover:bg-tracker-800"
+                            className="capitalize font-semibold text-sm bg-tracker-600 text-white px-6 py-2 rounded-sm transition-all duration-300 hover:bg-tracker-800 disabled:cursor-not-allowed"
+                            disabled={isLoading}
                         >
-                            Update task
+                            {isLoading ? "loading..." : "Update task"}
                         </button>
                     </div>
                 </form>

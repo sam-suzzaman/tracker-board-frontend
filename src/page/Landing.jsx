@@ -29,12 +29,12 @@ const Landing = () => {
                 {/* Top row */}
                 <div className="flex flex-row justify-between items-center bg-white py-4 px-6 rounded-md">
                     <h2 className="text-xl md:text-xl lg:text-2xl font-bold capitalize text-tracker-700">
-                        my tasks
+                        tasks List
                     </h2>
                     <div className=" flex justify-end items-center">
                         <button
                             onClick={addTaskModalOpenHandler}
-                            className="text-xs md:text-sm capitalize font-semibold tracking-wide px-5 py-1 rounded-sm text-tracker-800 bg-tracker-100 transition-all duration-300 hover:bg-tracker-400 hover:text-white"
+                            className="text-xs md:text-sm capitalize font-semibold tracking-wide px-5 py-2 rounded-sm text-tracker-800 bg-tracker-100 transition-all duration-300 hover:bg-tracker-400 hover:text-white"
                         >
                             <i class="fa-solid fa-plus mr-[5px]"></i>
                             add task

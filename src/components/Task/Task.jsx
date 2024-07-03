@@ -67,20 +67,30 @@ const Task = ({ data }) => {
 
     return (
         <div className="bg-white px-4 py-6 rounded-[4px]">
-            <span className="text-[11px] font-semibold capitalize bg-orange-100 text-orange-800 px-3 py-[2px] rounded-sm tracking-wide">
+            <span
+                className={`text-[11px] font-semibold capitalize px-3 py-[2px] rounded-sm tracking-wide ${
+                    data?.status == "in-progress"
+                        ? "bg-orange-100 text-orange-800"
+                        : "bg-green-200 text-green-900"
+                }`}
+            >
                 {data?.status}
             </span>
             <h3 className="text-base md:text-lg lg:text-lg font-semibold text-tracker-800 mt-2">
                 {data?.title}
             </h3>
-            <p className="text-sm md:text-[14px] mt-3 text-justify ">
+            <p className="text-sm md:text-[14px] mt-3 text-justify whitespace-pre-line">
                 {data?.description}
             </p>
             <div className="flex justify-between items-center mt-6">
                 <div className="">
                     <button
                         onClick={() => toggleTaskStatus(data?._id)}
-                        className="text-[11px] font-semibold capitalize bg-green-100 text-green-800 px-3 py-[2px] rounded-sm tracking-wide cursor-pointer hover:bg-green-400  hover:text-white transition-all duration-300"
+                        className={`text-[11px] font-semibold capitalize px-3 py-[2px] rounded-sm tracking-wide cursor-pointer   transition-all duration-300 ${
+                            data?.status == "complete"
+                                ? "bg-orange-100 text-orange-800 hover:bg-orange-200 hover:text-orange-900"
+                                : "bg-green-100 text-green-800 hover:bg-green-200 hover:text-green-900"
+                        }`}
                     >
                         <i class="fa-solid fa-check mr-1"></i>make{" "}
                         {data?.status === "complete"

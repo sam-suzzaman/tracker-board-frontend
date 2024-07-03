@@ -15,18 +15,29 @@ const AddTaskModal = ({ open, onClose }) => {
         handleSubmit,
         watch,
         formState: { errors },
+        reset,
     } = useForm();
 
     // form submission handler
     const onSubmit = async (data) => {
-        await addTask(data);
-        onClose();
-        Swal.fire({
-            title: "Done",
-            text: "Task Added",
-            icon: "success",
-            confirmButtonColor: "#33a440d5",
-        });
+        const res = await addTask(data);
+        if (res?.data?.status) {
+            onClose();
+            Swal.fire({
+                title: "Done",
+                text: "Task Added",
+                icon: "success",
+                confirmButtonColor: "#33a440d5",
+            });
+            reset();
+        } else {
+            Swal.fire({
+                title: "Something wrong",
+                text: "Failed to add task",
+                icon: "error",
+                confirmButtonColor: "#33a440d5",
+            });
+        }
     };
 
     return (

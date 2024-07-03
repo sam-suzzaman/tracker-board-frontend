@@ -7,7 +7,8 @@ const baseApi = createApi({
     }),
     endpoints: (builder) => ({
         getAllTasks: builder.query({
-            query: () => "/tasks",
+            // query: () => "/tasks",
+            query: (search) => `/tasks?search=${search}`,
             providesTags: ["Tasks"],
         }),
         // getSearchedTask: builder.query({
@@ -45,6 +46,7 @@ const baseApi = createApi({
 export const {
     useGetAllTasksQuery,
     useGetSingleTaskQuery,
+    // useGetSearchedTaskQuery,
     useAddTaskMutation,
     useUpdateTaskMutation,
     useDeleteTaskMutation,

@@ -1,7 +1,10 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import Modal from "react-responsive-modal";
-import { useUpdateTaskMutation } from "../../redux/features/api/baseAPI";
+import {
+    useGetSingleTaskQuery,
+    useUpdateTaskMutation,
+} from "../../redux/features/api/baseAPI";
 import Swal from "sweetalert2";
 
 const EditTaskModal = ({ open, onClose, data }) => {
@@ -11,22 +14,33 @@ const EditTaskModal = ({ open, onClose, data }) => {
         handleSubmit,
         watch,
         formState: { errors },
+        reset,
     } = useForm();
 
-    const [updateTask, { res, isLoading, isError, error }] =
+    // update mutation
+    const [updateTask, { data: res, isLoading, isError, error }] =
         useUpdateTaskMutation();
 
     // form submission handler
     const onSubmit = async (info) => {
         const res = await updateTask({ info, id: data?._id });
-        console.log({ info, id: data?._id });
-        onClose();
-        Swal.fire({
-            title: "Done",
-            text: "Task Updated",
-            icon: "success",
-            confirmButtonColor: "#33a440d5",
-        });
+        if (res?.data?.status) {
+            onClose();
+            Swal.fire({
+                title: "Done",
+                text: "Task Updated",
+                icon: "success",
+                confirmButtonColor: "#33a440d5",
+            });
+        } else {
+            Swal.fire({
+                title: "Something Wrong",
+                text: "Failed to Task Updated",
+                icon: "error",
+                confirmButtonColor: "#33a440d5",
+            });
+        }
+        reset();
     };
 
     return (
@@ -129,7 +143,7 @@ const EditTaskModal = ({ open, onClose, data }) => {
                             name="status"
                             id="status"
                             className="outline-none border-tracker-200 border-[1px] w-full rounded-[4px] px-[10px] py-[4px] text-sm font-semibold text-black focus:border-tracker-400 transition-all duration-300"
-                            defaultChecked={data?.status}
+                            defaultValue={data?.status}
                             {...register("status", {
                                 required: {
                                     value: true,

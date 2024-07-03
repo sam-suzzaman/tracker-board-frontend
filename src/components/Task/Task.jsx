@@ -23,6 +23,7 @@ const Task = ({ data }) => {
             error: deleteErrorMsg,
         },
     ] = useDeleteTaskMutation();
+
     // Update task mutation
     const [updateTask, { res, isLoading: updateLoading, error: updateError }] =
         useUpdateTaskMutation();
@@ -106,11 +107,13 @@ const Task = ({ data }) => {
                     >
                         <i class="fa-regular fa-pen-to-square"></i>
                     </button>
-                    <EditTaskModal
-                        open={open}
-                        onClose={onCloseModal}
-                        data={data}
-                    />
+                    {open && (
+                        <EditTaskModal
+                            open={open}
+                            onClose={onCloseModal}
+                            data={data}
+                        />
+                    )}
                     {/* delete btn */}
                     <button
                         onClick={() => taskDeleteHandler(data?._id)}
